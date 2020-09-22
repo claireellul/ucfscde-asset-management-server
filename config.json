@@ -1,0 +1,14 @@
+{
+    "development": {
+        "config_id": "development",
+        "app_name": "PostGIS API",
+        "app_desc": "General PostGIS API",
+        "node_port": 3000,
+        "json_indentation": 4,
+        "host": "localhost",
+        "user": "postgres",
+        "database": "teaching-19-20-localhost",
+        "password": "sliema",
+        "port": 5432
+    }
+}
