@@ -12,13 +12,14 @@
         res.json({message:req.originalUrl});
     });
 
-    crud.route('/insert/:schema/:tablename/:geomcolumn?/:geometrytype?').post(function (req,res) {
+    crud.route('/insert/:schema/:tablename/:geomcolumn?/:geometrytype?/:geometrySRID?').post(function (req,res) {
            	var schema = req.params.schema;
             var tablename = req.params.tablename;
         	var geomcolumn = req.params.geomcolumn;
         	var schema = req.params.schema;
         	console.log(schema);
         	console.log(tablename);
+            console.log("srid "+ req.params.geometrySRID);
 
 	        var data =	getData(req,res,"insert");
 
@@ -163,7 +164,7 @@
 	    }	
     	var query = "insert into " + req.params.schema+"."+JSON.stringify(req.params.tablename);
     	query += "("+fields+") values";
-    	query += "("+ questions+")";
+    	query += "("+ questions+") returning * ";
 
     	console.log(query);
     	console.log(values);
@@ -182,8 +183,8 @@
             	   console.log(err);
                    res.send("Query error "+err);
           		}
-	          console.log("inserted");
-              res.send("Data inserted succesfully");
+	          console.log("inserted2222");
+              res.send("Data inserted succesfully " + JSON.stringify(result.rows[0]));
        		});	
 
        	});
@@ -195,7 +196,12 @@
     	// depending on the geometry type process the geometry differently
     	// assume that the coordinates are presented as a string that is ready to go
     	// assume that the coordinate system is epsg 4326
-    	var coordsystem = "3003";
+        if (req.params.geometrySRID) {
+                coordsystem = req.params.geometrySRID
+        }
+        else {
+    	   var coordsystem = "3003";
+        }
     	var geom ="";
     	switch (geomtype.toLowerCase()) {
     		case "point":

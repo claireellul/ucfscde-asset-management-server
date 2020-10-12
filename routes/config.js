@@ -1,5 +1,5 @@
     const config = {
-        host: '134.209.23.3',
+        host: '142.93.33.55',
         user: 'postgres',
         database: 'gisdb7',
         password: 'J01nnaM1',
